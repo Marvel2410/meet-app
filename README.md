@@ -68,3 +68,12 @@ User wants to view event details through charts
 Given event details are available
 When the user selects the 'View Charts' option
 Then charts visualizing event details should be displayed
+
+**How Serverless Function will be Used in Meet App:**
+- Login and Security: These serverless functions, like those on AWS Lambda, can help make sure only authorized people access the app's calendar info. They handle logins securely without needing you to manage big servers.
+
+- Finding Events: As an example, when someone wants to see events in a specific city. These functions can help find and sort those events, making it easier for users to see what's happening near them.
+
+- Working Offline: These functions can also help the app work when there's no internet. They can store some info so users can still see things even if they're not connected.
+
+Background Optimization: Behind the scenes work, such as organizing data or making sure everything runs smoothly, even though users might not see it happening.
