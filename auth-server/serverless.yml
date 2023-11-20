@@ -40,9 +40,12 @@ functions:
       - http:
           path: api/get-auth-url
           method: get
-#      - httpApi:
-#          path: /users/create
-#          method: get
+  getAccessToken:
+    handler: handler.getAccessToken
+    events:
+      - http:
+          path: api/token/{code}
+          method: get
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
