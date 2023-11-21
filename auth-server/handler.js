@@ -8,6 +8,7 @@ const redirect_uris = [
   "https://marvel2410.github.io/meet-app/"
 ];
 
+
 const oAuth2Client = new google.auth.OAuth2(
   CLIENT_ID,
   CLIENT_SECRET,
