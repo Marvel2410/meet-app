@@ -1,4 +1,4 @@
-// src/__tests__/EventList.test.js
+// src/__test__/EventList.test.js
 
 import { render, within, waitFor } from '@testing-library/react';
 import { getEvents } from '../api';
@@ -23,7 +23,7 @@ describe('<EventList /> component', () => {
 });
 
 describe('<EventList /> integration', () => {
-  test('renders a list of 32 events when the app is mounted and rendered', async () => {
+  test('renders a non-empty list of events when the app is mounted and rendered', async () => {
     const AppComponent = render(<App />);
     const AppDOM = AppComponent.container.firstChild;
     const EventListDOM = AppDOM.querySelector('#event-list');

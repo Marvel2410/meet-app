@@ -1,27 +1,32 @@
-import React from 'react';
+// src/__tests__/NumberOfEvents.test.js
+
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import NumberOfEvents from '../components/NumberOfEvents';
 
 describe('<NumberOfEvents /> component', () => {
-  test('renders input field for number of events', () => {
-    const { getByRole } = render(<NumberOfEvents />);
-    const inputElement = getByRole('spinbutton');
-    expect(inputElement).toBeInTheDocument();
+  let NumberOfEventsComponent;
+  beforeEach(() => {
+    NumberOfEventsComponent = render(<NumberOfEvents />);
   });
 
-  test('default value of input field is 32', () => {
-    const { getByRole } = render(<NumberOfEvents />);
-    const inputElement = getByRole('spinbutton');
-    expect(inputElement).toHaveValue(32);
+  test('renders number of events text input', () => {
+    const numberTextBox = NumberOfEventsComponent.queryByRole('textbox');
+    expect(numberTextBox).toBeInTheDocument();
+    expect(numberTextBox).toHaveClass('number-of-events-input');
   });
 
-  test('input value changes when typed in', async () => {
-    const { getByRole } = render(<NumberOfEvents />);
-    const inputElement = getByRole('spinbutton');
-    expect(inputElement).toHaveValue(32);
-    await userEvent.clear(inputElement);
-    await userEvent.type(inputElement, '10');
-    expect(inputElement).toHaveValue(10);
+  test('default number is 32', async () => {
+    const numberTextBox = NumberOfEventsComponent.queryByRole('textbox');
+    expect(numberTextBox).toHaveValue("32");
+  });
+
+  test('number of events text box value changes when the user types in it', async () => {
+    const user = userEvent.setup();
+    const numberTextBox = NumberOfEventsComponent.queryByRole('textbox');
+    await user.type(numberTextBox, "123")
+
+    // 32 (the default value already written) + 123
+    expect(numberTextBox).toHaveValue("32123");
   });
 });

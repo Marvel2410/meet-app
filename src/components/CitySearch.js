@@ -11,16 +11,15 @@ const CitySearch = ({ allLocations, setCurrentCity }) => {
     setSuggestions(allLocations);
   }, [`${allLocations}`]);
 
+
   const handleInputChanged = (event) => {
     const value = event.target.value;
-    const filteredLocations = allLocations && allLocations.filter((location) => {
+    const filteredLocations = allLocations ? allLocations.filter((location) => {
       return location.toUpperCase().indexOf(value.toUpperCase()) > -1;
-    });
-
+    }) : [];
     setQuery(value);
-    setSuggestions(filteredLocations ? filteredLocations : []);
+    setSuggestions(filteredLocations);
   };
-
 
   const handleItemClicked = (event) => {
     const value = event.target.textContent;
@@ -51,8 +50,7 @@ const CitySearch = ({ allLocations, setCurrentCity }) => {
         : null
       }
     </div>
-  );
-};
+  )
+}
 
 export default CitySearch;
-
