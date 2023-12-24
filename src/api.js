@@ -1,5 +1,3 @@
-// src/api.js
-
 import mockData from './mock-data';
 
 /**
