@@ -6,26 +6,25 @@ import userEvent from '@testing-library/user-event';
 const feature = loadFeature('./src/features/showHiddenEventsDetails.feature');
 
 defineFeature(feature, (test) => {
+
   //SCENARIO 1
   test('Event Element Collapsed by Default', ({ given, when, then }) => {
     let AppComponent;
+
     given('the user has selected a location to search for events', () => {
       AppComponent = render(<App />);
     });
 
     when(
-      "the list of local events for that location loads",
-      async () => {
+      "the list of local events for that location loads", async () => {
         const AppDOM = AppComponent.container.firstChild;
         const EventListDOM = AppDOM.querySelector('#event-list');
 
         await waitFor(() => {
-          const EventListItems =
-            within(EventListDOM).queryAllByRole('listitem');
+          const EventListItems = within(EventListDOM).queryAllByRole('listitem');
           expect(EventListItems.length).toBe(32);
         });
-      }
-    );
+      });
 
     then('the event elements will collapse', () => {
       const EventDOM = AppComponent.container.firstChild;
@@ -35,12 +34,9 @@ defineFeature(feature, (test) => {
   });
 
   // SCENARIO 2
-  test('User can expand an event to see details', ({
-    given,
-    when,
-    then,
-  }) => {
+  test('User can expand an event to see details', ({ given, when, then }) => {
     let AppComponent;
+
     given('the list of events is displayed', async () => {
       AppComponent = render(<App />);
       const AppDOM = AppComponent.container.firstChild;
@@ -53,7 +49,6 @@ defineFeature(feature, (test) => {
 
     when("a user selects an events details", async () => {
       const button = AppComponent.queryAllByText('Show Details')[0];
-
       await userEvent.click(button);
     });
 
@@ -65,13 +60,10 @@ defineFeature(feature, (test) => {
   });
 
   // SCENARIO 3
-  test('User can collapse an event to hide details', ({
-    given,
-    when,
-    then,
-  }) => {
+  test('User can collapse an event to hide details', ({ given, when, then }) => {
     let AppComponent;
     let button;
+
     given('the user has all the information they need about an event', async () => {
       AppComponent = render(<App />);
       const AppDOM = AppComponent.container.firstChild;
