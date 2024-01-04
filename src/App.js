@@ -18,16 +18,12 @@ const App = () => {
   const [warningAlert, setWarningAlert] = useState('');
 
   useEffect(() => {
-    const checkOnlineStatus = () => {
-      if (navigator.onLine) {
-        setWarningAlert('You are currently offline. Displaying cached data.');
-      } else {
-        setWarningAlert('');
-      }
-    };
-
+    if (navigator.onLine) {
+      setWarningAlert("");
+    } else {
+      setWarningAlert("You are currently in offline mode, displaying cached data.");
+    }
     fetchData();
-    checkOnlineStatus();
   }, [currentCity, currentNOE]);
 
 

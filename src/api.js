@@ -2,9 +2,8 @@ import mockData from './mock-data';
 
 /**
 * @param {*}
- */
+*/
 
-// Extracts unique locations from events
 export const extractLocations = (events) => {
   const extractedLocations = events.map((event) => event.location);
   const locations = [...new Set(extractedLocations)];
@@ -12,7 +11,6 @@ export const extractLocations = (events) => {
 };
 
 
-// Fetches token information
 const checkToken = async (accessToken) => {
   const response = await fetch(
     `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`
@@ -21,26 +19,19 @@ const checkToken = async (accessToken) => {
   return result;
 };
 
-
-// Removes query parameters from the URL
-const removeQuery = () => {
-  let newurl;
-  if (window.history.pushState && window.location.pathname) {
-    newurl =
-      window.location.protocol +
-      '//' +
-      window.location.host +
-      window.location.pathname;
-    window.history.pushState('', '', newurl);
-  } else {
-    newurl = window.location.protocol + '//' + window.location.host;
-    window.history.pushState('', '', newurl);
-  }
+// Retrieves a new access token using the authorization code
+const getToken = async (code) => {
+  const encodeCode = encodeURIComponent(code);
+  const response = await fetch(
+    'https://z2qgq79ay0.execute-api.eu-central-1.amazonaws.com/dev/api/token' + '/' + encodeCode
+  );
+  const { access_token } = await response.json();
+  access_token && localStorage.setItem('access_token', access_token);
+  return access_token;
 };
 
-
 // Retrieves the access token or redirects the user for authentication
-export const getAccessToken = async () => {
+const getAccessToken = async () => {
   const accessToken = localStorage.getItem('access_token');
   const tokenCheck = accessToken && (await checkToken(accessToken));
 
@@ -61,20 +52,28 @@ export const getAccessToken = async () => {
   return accessToken;
 };
 
-// Retrieves a new access token using the authorization code
-const getToken = async (code) => {
-  const encodeCode = encodeURIComponent(code);
-  const response = await fetch(
-    'https://z2qgq79ay0.execute-api.eu-central-1.amazonaws.com/dev/api/token' + '/' + encodeCode
-  );
-  const { access_token } = await response.json();
-  access_token && localStorage.setItem('access_token', access_token);
-  return access_token;
+// Removes query parameters from the URL
+const removeQuery = () => {
+  let newurl;
+  if (window.history.pushState && window.location.pathname) {
+    newurl =
+      window.location.protocol +
+      '//' +
+      window.location.host +
+      window.location.pathname;
+    window.history.pushState('', '', newurl);
+  } else {
+    newurl = window.location.protocol + '//' + window.location.host;
+    window.history.pushState('', '', newurl);
+  }
 };
-
 
 // Fetches the list of all events
 export const getEvents = async () => {
+  if (window.location.href.startsWith('http://localhost')) {
+    return mockData;
+  }
+
   if (!navigator.onLine) {
     const events = localStorage.getItem('lastEvents');
     return events ? JSON.parse(events) : [];
@@ -82,25 +81,20 @@ export const getEvents = async () => {
 
   const token = await getAccessToken();
 
-  if (window.location.href.startsWith('http://localhost')) {
-    return mockData;
-  }
+  if (token) {
+    removeQuery();
+    const url = "https://z2qgq79ay0.execute-api.eu-central-1.amazonaws.com/dev/api/get-events" + "/" + token;
+    const response = await fetch(url);
+    const result = await response.json();
 
-  const url = "https://z2qgq79ay0.execute-api.eu-central-1.amazonaws.com/dev/api/get-events" + "/" + token;
-  const response = await fetch(url);
-  const result = await response.json();
-
-  if (result) {
-    localStorage.setItem('lastEvents', JSON.stringify(result.events));
-    return result.events;
-  } else {
-    return null;
+    if (result) {
+      if (!navigator.onLine) {
+        localStorage.setItem('lastEvents', JSON.stringify(result.events));
+        return result.events;
+      }
+      return result.events;
+    } else {
+      return null;
+    }
   }
 };
-
-
-
-
-
-
-
