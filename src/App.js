@@ -6,7 +6,7 @@ import CitySearch from './components/CitySearch';
 import EventList from './components/EventList';
 import NumberOfEvents from './components/NumberOfEvents';
 import './App.css';
-import { InfoAlert, ErrorAlert } from './components/Alert';
+import { InfoAlert, ErrorAlert, WarningAlert } from './components/Alert';
 
 const App = () => {
   const [allLocations, setAllLocations] = useState([]);
@@ -15,10 +15,22 @@ const App = () => {
   const [currentCity, setCurrentCity] = useState('See all cities');
   const [infoAlert, setInfoAlert] = useState('');
   const [errorAlert, setErrorAlert] = useState('');
+  const [warningAlert, setWarningAlert] = useState('');
 
   useEffect(() => {
+    const checkOnlineStatus = () => {
+      if (navigator.onLine) {
+        setWarningAlert('You are currently offline. Displaying cached data.');
+      } else {
+        setWarningAlert('');
+      }
+    };
+
     fetchData();
+    checkOnlineStatus();
   }, [currentCity, currentNOE]);
+
+
 
   const fetchData = async () => {
     const allEvents = await getEvents();
@@ -35,6 +47,7 @@ const App = () => {
       <div className="alerts-container">
         {infoAlert.length ? <InfoAlert text={infoAlert} /> : null}
         {errorAlert.length ? <ErrorAlert text={errorAlert} /> : null}
+        {warningAlert.length ? <WarningAlert text={warningAlert} /> : null}
       </div>
       <CitySearch
         allLocations={allLocations}
