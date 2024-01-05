@@ -1,7 +1,8 @@
 // src/components/NumberOfEvents.js
+import React from 'react';
+import { ErrorAlert } from './Alert';
 
-
-const NumberOfEvents = ({ setCurrentNOE, setErrorAlert }) => {
+const NumberOfEvents = ({ setCurrentNOE, setErrorAlert, errorAlert }) => {
   const handleInputChanged = (event) => {
     const value = event.target.value;
     let errorText = '';
@@ -15,14 +16,18 @@ const NumberOfEvents = ({ setCurrentNOE, setErrorAlert }) => {
   };
 
 
+
   return (
-    <div id="number-of-events">
+    <div id="number-of-events" class="numberOfEvents">
       <input
         type="text"
         defaultValue="32"
         onChange={handleInputChanged}
         data-testid="numberOfEventsInput"
       />
+      {errorAlert && (
+        <ErrorAlert text={errorAlert} />
+      )}
     </div>
   );
 };
