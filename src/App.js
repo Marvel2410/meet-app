@@ -5,6 +5,7 @@ import { extractLocations, getEvents } from './api';
 import CitySearch from './components/CitySearch';
 import EventList from './components/EventList';
 import NumberOfEvents from './components/NumberOfEvents';
+import CityEventsChart from './components/CityEventsChart';
 import './App.css';
 import { InfoAlert, ErrorAlert, WarningAlert } from './components/Alert';
 
@@ -40,6 +41,7 @@ const App = () => {
 
   return (
     <div className="App" style={{ minHeight: '100vh' }}>
+      <h1>Meet App</h1>
       <div className="alerts-container">
         {infoAlert.length ? <InfoAlert text={infoAlert} /> : null}
 
@@ -51,6 +53,7 @@ const App = () => {
         setInfoAlert={setInfoAlert}
       />
       <NumberOfEvents setCurrentNOE={setCurrentNOE} setErrorAlert={setErrorAlert} errorAlert={errorAlert} />
+      <CityEventsChart allLocations={allLocations} events={events} />
       <EventList events={events} />
     </div>
   );
