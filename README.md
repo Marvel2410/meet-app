@@ -1,5 +1,9 @@
-Link to Meet App: https://marvel2410.github.io/meet-app/
-Git Hub Repo: https://github.com/Marvel2410/meet-app
+# MEET APP
+
+**Link to Meet App:**
+ https://marvel2410.github.io/meet-app/
+**Git Hub Repo:**
+ https://github.com/Marvel2410/meet-app
 
 Objective
 Develop a Progressive Web Application (PWA), using React and test-driven development (TDD).  The app uses the Google Calendar API to retrive the information (events).  
