@@ -1,3 +1,28 @@
+Link to Meet App: https://marvel2410.github.io/meet-app/
+Git Hub Repo: https://github.com/Marvel2410/meet-app
+
+Objective
+Develop a Progressive Web Application (PWA), using React and test-driven development (TDD).  The app uses the Google Calendar API to retrive the information (events).  
+
+Overview
+This project merges different technologies to create a website that is user friendly, works on any device, and also works offline.  
+
+Key Features
+- Check out events in different cities
+- Easily see/hide event details
+- Pick how many events a user wants to see
+- Use the website without the internet (cached data)
+- Add it like an app to your phone's home screen
+
+Tech Specs
+- React
+- Recharts
+- Google Calendar API
+- Servless functions (AWS Lambda)
+- GitHub hosted
+- Lighthouse PWA
+- VS Code (code editor)
+
 # Stories
 
 **Filter Events by City**
