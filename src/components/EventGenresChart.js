@@ -9,6 +9,9 @@ const EventGenresChart = ({ events }) => {
   const genres = ['React', 'JavaScript', 'Node', 'jQuery', 'Angular'];
   const colors = ['#FF0000', '#FFA500', '#FFFF00', '#008000', '#0000FF'];
 
+  useEffect(() => {
+    setData(getData());
+  }, [`${events}`]);
 
   const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, percent, index }) => {
     const RADIAN = Math.PI / 180;
@@ -28,21 +31,18 @@ const EventGenresChart = ({ events }) => {
     ) : null;
   };
 
+  const getData = () => {
+    const data = genres.map(genre => {
+      const filteredEvents = events.filter(event => event.summary.includes(genre));
+      return {
+        name: genre,
+        value: filteredEvents.length
+      };
+    });
+    return data;
+  };
 
-  useEffect(() => {
-    const getData = () => {
-      const data = genres.map(genre => {
-        const filteredEvents = events.filter(event => event.summary.includes(genre));
-        return {
-          name: genre,
-          value: filteredEvents.length
-        };
-      });
-      return data;
-    };
 
-    setData(getData());
-  }, [events]);
 
 
   return (
@@ -54,7 +54,7 @@ const EventGenresChart = ({ events }) => {
           fill="#8884d8"
           labelLine={false}
           label={renderCustomizedLabel}
-          outerRadius={100}
+          outerRadius={140}
 
         >
           {data.map((entry, index) => (
