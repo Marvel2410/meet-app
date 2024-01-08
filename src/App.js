@@ -20,6 +20,16 @@ const App = () => {
   const [warningAlert, setWarningAlert] = useState('');
 
   useEffect(() => {
+    const fetchData = async () => {
+      const allEvents = await getEvents();
+      const filteredEvents =
+        currentCity === 'See all cities'
+          ? allEvents
+          : allEvents.filter((event) => event.location === currentCity);
+      setEvents(filteredEvents.slice(0, currentNOE));
+      setAllLocations(extractLocations(allEvents));
+    };
+
     if (navigator.onLine) {
       setWarningAlert("");
     } else {
@@ -27,19 +37,6 @@ const App = () => {
     }
     fetchData();
   }, [currentCity, currentNOE]);
-
-
-
-  const fetchData = async () => {
-    const allEvents = await getEvents();
-    const filteredEvents =
-      currentCity === 'See all cities'
-        ? allEvents
-        : allEvents.filter((event) => event.location === currentCity);
-    setEvents(filteredEvents.slice(0, currentNOE));
-    setAllLocations(extractLocations(allEvents));
-  };
-
   return (
     <div className="App" style={{ minHeight: '100vh' }}>
       <h1>Meet App</h1>
